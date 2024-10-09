@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const connection = require('./db'); // Import the connection
 const moment = require('moment'); // For date formatting
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -13,23 +14,13 @@ const mysql = require('mysql');
 app.use(cors());
 app.use(bodyParser.json());
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'musinguziverelian23',
-  database: 'school_management',
-});
 
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to the database!');
-});
 
 const users = [
   {
     userId: 25291,
     role: 'registrar',
-    password: 'registrarPassword', // Plain text password (for initialization)
+    password: '1111', // Plain text password (for initialization)
     hashedPassword: '', // To be populated later with the hashed password
   },
   {
@@ -673,6 +664,7 @@ app.post('/fee-types', async (req, res) => {
 });
 
 // Start the server
-app.listen(5000, () => {
-  console.log('Server running on port 5000');
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`server running on port ${port}`);
 });
